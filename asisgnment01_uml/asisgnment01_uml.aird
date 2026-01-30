@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description" uid="_HluxsP4GEfCHBclpNukJkw" selectedViews="_HmxTgP4GEfCHBclpNukJkw _HnhhcP4GEfCHBclpNukJkw _HoGJMP4GEfCHBclpNukJkw _HoWn4P4GEfCHBclpNukJkw _HokqUP4GEfCHBclpNukJkw _HorYAP4GEfCHBclpNukJkw _HoyFsP4GEfCHBclpNukJkw _Ho9r4P4GEfCHBclpNukJkw _HpID8P4GEfCHBclpNukJkw _HpTDEP4GEfCHBclpNukJkw _HpZwwP4GEfCHBclpNukJkw" version="15.4.1.202403191723">
+  <semanticResources>asisgnment01_uml.uml</semanticResources>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HmxTgP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.sequence/description/papyrus_sequence.odesign#//@ownedViewpoints[name='SequenceDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HnhhcP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.deployment/description/papyrus_deployment.odesign#//@ownedViewpoints[name='DeploymentDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HoGJMP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.properties.uml/description/umlProperties.odesign#//@ownedViewpoints[name='UmlProperties']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HoWn4P4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.compositestructure/description/papyrus_compositestructure.odesign#//@ownedViewpoints[name='CompositeStructureDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HokqUP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.activity/description/papyrus_activity.odesign#//@ownedViewpoints[name='ActivityDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HorYAP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.communication/description/papyrus_communication.odesign#//@ownedViewpoints[name='CommunicationDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HoyFsP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.statemachine/description/papyrus_statemachine.odesign#//@ownedViewpoints[name='StateMachineDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_Ho9r4P4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.clazz/description/papyrus_class.odesign#//@ownedViewpoints[name='ClassDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HpID8P4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.usecase/description/papyrus_usecase.odesign#//@ownedViewpoints[name='UseCaseDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HpTDEP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.component/description/papyrus_component.odesign#//@ownedViewpoints[name='ComponentDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_HpZwwP4GEfCHBclpNukJkw">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.papyrus.sirius.uml.diagram.pkg/description/papyrus_package.odesign#//@ownedViewpoints[name='PackageDiagram']"/>
+  </ownedViews>
+</viewpoint:DAnalysis>
