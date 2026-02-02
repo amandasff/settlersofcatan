@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_HmlGQP4GEfCHBclpNukJkw" name="asisgnment01_uml">
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_HmlGQP4GEfCHBclpNukJkw" name="asisgnment01_uml">
   <packageImport xmi:type="uml:PackageImport" xmi:id="_HqhyIP4GEfCHBclpNukJkw">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_CItZQP4PEfCHBclpNukJkw" name="Game">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_P4i4QAB-EfG81K-Permwpg" name="Players" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__ZHKAACAEfG81K-Permwpg" name="LiteralInteger1" value="4"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__ZHxEACAEfG81K-Permwpg" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_w_z0EAB-EfG81K-Permwpg" name="Board" visibility="private" type="_1d-hIP4QEfCHBclpNukJkw"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_01kksAB-EfG81K-Permwpg" name="currentRound" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_1J0WYAB-EfG81K-Permwpg" name="currentPlayerIndex" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_R3ZNwACCEfG81K-Permwpg" name="maxRounds" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_acyWQACCEfG81K-Permwpg" name="targetVictoryPoints"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_BNdKkACDEfG81K-Permwpg" name="dice"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Em2vUACDEfG81K-Permwpg" name="rules"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_JOdMkACDEfG81K-Permwpg" name="actionSelector"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_M8gysACDEfG81K-Permwpg" name="logger"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_T8ZA0ACBEfG81K-Permwpg" name="Game">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_Z-VqQACDEfG81K-Permwpg" name="maxRounds">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_WapL8ACBEfG81K-Permwpg" name="setup"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_WtBVYACBEfG81K-Permwpg" name="run"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_XDetkACBEfG81K-Permwpg" name="getWinner()"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_1d-hIP4QEfCHBclpNukJkw" name="Board"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_ICrOkACGEfG81K-Permwpg" name="Demonstrator"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_NfVEgACGEfG81K-Permwpg" name="SimulationConfig"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Q0tE4ACGEfG81K-Permwpg" name="ConfigLoader"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UhuwQACGEfG81K-Permwpg" name="Tile"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_YFqxEACGEfG81K-Permwpg" name="Node"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_aFRRUACGEfG81K-Permwpg" name="Edge"/>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_fdAyEACGEfG81K-Permwpg" name="TerrainType"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_nbYW0ACGEfG81K-Permwpg" name="Player"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_qm6esACGEfG81K-Permwpg" name="AgentStrategy"/>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_VRXA8ACHEfG81K-Permwpg" name="ResourceType"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_fRnk8ACHEfG81K-Permwpg" name="ResourceInventory"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_jJaV4ACHEfG81K-Permwpg" name="ResourceBank"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_kwXsoACHEfG81K-Permwpg" name="Road"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_mGHXkACHEfG81K-Permwpg" name="Building"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xQwEAACHEfG81K-Permwpg" name="Settelement"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_yx7i4ACHEfG81K-Permwpg" name="City"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_1RbrMACHEfG81K-Permwpg" name="PiecePool"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_6We5cACHEfG81K-Permwpg" name="Dice"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Bu1nEACIEfG81K-Permwpg" name="ResourceProductionEngine"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_ENtdQACIEfG81K-Permwpg" name="Action"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_H4KVwACIEfG81K-Permwpg" name="Cost"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_KfhZkACIEfG81K-Permwpg" name="RuleEngine"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_PbEtkACIEfG81K-Permwpg" name="ActionGenerator"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_S0CNcACIEfG81K-Permwpg" name="GameState"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_V56ZQACIEfG81K-Permwpg" name="SetupManager"/>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Sw7aoAB-EfG81K-Permwpg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_SxD9gAB-EfG81K-Permwpg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
 </uml:Model>
