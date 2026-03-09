@@ -1,22 +1,35 @@
 package catan;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public final class ConfigLoader {
-    public SimulationConfig load(String path) {
+
+    public SimulationConfig load(String pathString) {
         int rounds = 50;
         long seed = 1L;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        Path path = resolveConfigPath(pathString);
+
+        if (path == null) {
+            System.out.println("Using default config because file could not be read.");
+            return new SimulationConfig(rounds, seed);
+        }
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
+
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
+
                 if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
 
-                String[] parts = line.split("=");
+                String[] parts = line.split("=", 2);
                 if (parts.length != 2) {
                     continue;
                 }
@@ -30,10 +43,30 @@ public final class ConfigLoader {
                     seed = Long.parseLong(value);
                 }
             }
-        } catch (Exception e) {
+
+            System.out.println("Loaded config from: " + path.toAbsolutePath());
+            return new SimulationConfig(rounds, seed);
+
+        } catch (IOException | NumberFormatException e) {
             System.out.println("Using default config because file could not be read.");
+            return new SimulationConfig(rounds, seed);
+        }
+    }
+
+    private Path resolveConfigPath(String pathString) {
+        Path[] candidates = new Path[] {
+                Paths.get(pathString),
+                Paths.get("config.txt"),
+                Paths.get("assignment_one", "part4", "config.txt"),
+                Paths.get("part4", "config.txt")
+        };
+
+        for (Path candidate : candidates) {
+            if (Files.exists(candidate) && Files.isRegularFile(candidate)) {
+                return candidate;
+            }
         }
 
-        return new SimulationConfig(rounds, seed);
+        return null;
     }
 }

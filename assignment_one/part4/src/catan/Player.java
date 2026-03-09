@@ -19,6 +19,10 @@ public final class Player {
         return new Player(id, new RandomStrategy());
     }
 
+    public static Player randomAgent(int id, long seed) {
+        return new Player(id, new RandomStrategy(seed));
+    }
+
     public int getId() {
         return id;
     }

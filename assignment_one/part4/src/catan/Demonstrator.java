@@ -1,35 +1,57 @@
 package catan;
 
+
+
 public final class Demonstrator {
 
     public static void main(String[] args) {
-        // Load the simulation configuration (number of rounds, optional seed, etc.)
-        SimulationConfig config = new ConfigLoader().load("config.txt");
+        String configPath = "assignment_one/part4/config.txt";
+        SimulationConfig config = new ConfigLoader().load(configPath);
 
-        // Create the fixed board layout and build the runtime board from it.
-        // This demonstrates R1.1: a valid, hard-wired map using the specified IDs.
+        // Demonstration 1: standard simulator run from fixed board setup.
+        System.out.println("=== DEMO 1: STANDARD SIMULATION ===");
+        runSimulation(config, false);
+
+        // Demonstration 2: richer run with extra resources so reviewers can observe
+        // more action types such as settlement/city building instead of mostly PASS.
+        System.out.println();
+        System.out.println("=== DEMO 2: ENRICHED DEMONSTRATION RUN ===");
+        runSimulation(config, true);
+    }
+
+    private static void runSimulation(SimulationConfig config, boolean enrichedDemo) {
         BoardLayout layout = BoardLayout.createDefaultLayout();
         Board board = new Board(layout);
-
-        // Create the shared bank and the four randomly acting agents required by R1.2.
         ResourceBank bank = new ResourceBank();
+
         Player[] players = new Player[] {
-                Player.randomAgent(0),
-                Player.randomAgent(1),
-                Player.randomAgent(2),
-                Player.randomAgent(3)
+                Player.randomAgent(0, config.getSeed() + 0),
+                Player.randomAgent(1, config.getSeed() + 1),
+                Player.randomAgent(2, config.getSeed() + 2),
+                Player.randomAgent(3, config.getSeed() + 3)
         };
 
-        // Bundle the live simulation state so actions/rules can access the board, bank, and players.
         GameState state = new GameState(board, bank, players);
-
-        // Create the main game controller that will run setup, turns, rule checks, logging, and termination.
         Game game = new Game(config, state, new ActionLogger());
 
-        // Perform initial placement/setup before the main loop starts.
+        // Initial placement according to the simulator setup rules.
         game.setup();
 
-        // Run the simulation until max rounds are reached or a player reaches 10 VP.
+        if (enrichedDemo) {
+            grantDemoResources(players);
+        }
+
+        // Runs rounds until max rounds are reached or someone reaches 10 VP.
         game.run();
+    }
+
+    private static void grantDemoResources(Player[] players) {
+        for (Player player : players) {
+            player.getHand().add(ResourceType.BRICK, 2);
+            player.getHand().add(ResourceType.LUMBER, 2);
+            player.getHand().add(ResourceType.WOOL, 2);
+            player.getHand().add(ResourceType.GRAIN, 2);
+            player.getHand().add(ResourceType.ORE, 2);
+        }
     }
 }

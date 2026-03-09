@@ -67,13 +67,11 @@ public final class Game {
         int roll = dice.roll();
         state.setCurrentRoll(roll);
 
-        // Resource production is skipped for roll 7 in this simplified simulator.
+        logger.logRoll(round, player.getId(), roll);
+
         productionEngine.produce(state, roll);
 
-        // R1.8: if the player has more than 7 resources,
-        // they must try to spend them by building something.
         boolean mustBuild = player.handSize() > 7;
-
         List<Action> legalActions = actionGenerator.getExecutableActions(state, player, mustBuild);
         Action chosen = player.getStrategy().select(legalActions);
 
