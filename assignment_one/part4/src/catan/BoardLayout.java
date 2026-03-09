@@ -1,4 +1,4 @@
-ackage catan;
+package catan;
 
 import java.util.ArrayList;
 import java.util.List;

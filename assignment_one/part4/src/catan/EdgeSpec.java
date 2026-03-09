@@ -9,6 +9,7 @@ public final class EdgeSpec {
         if (nodeAId == nodeBId) {
             throw new IllegalArgumentException("Edge endpoints must be different.");
         }
+
         this.id = id;
         this.nodeAId = nodeAId;
         this.nodeBId = nodeBId;

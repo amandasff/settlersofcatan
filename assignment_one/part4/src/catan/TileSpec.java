@@ -12,6 +12,7 @@ public final class TileSpec {
         if (cornerNodeIds == null || cornerNodeIds.length != 6) {
             throw new IllegalArgumentException("Each tile must have exactly 6 corner node ids.");
         }
+
         this.id = id;
         this.terrain = terrain;
         this.token = token;
