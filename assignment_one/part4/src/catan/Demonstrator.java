@@ -15,7 +15,7 @@ public final class Demonstrator {
         // Demonstration 2: richer run with extra resources so reviewers can observe
         // more action types such as settlement/city building instead of mostly PASS.
         System.out.println();
-        System.out.println("=== DEMO 2: ENRICHED DEMONSTRATION RUN ===");
+        System.out.println("=== DEMO 2: DEMONSTRATION RUN ===");
         runSimulation(config, true);
     }
 
