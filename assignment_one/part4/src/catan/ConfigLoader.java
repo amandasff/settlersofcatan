@@ -56,9 +56,9 @@ public final class ConfigLoader {
     private Path resolveConfigPath(String pathString) {
         Path[] candidates = new Path[] {
                 Paths.get(pathString),
-                Paths.get("config.txt"),
-                Paths.get("assignment_one", "part4", "config.txt"),
-                Paths.get("part4", "config.txt")
+                Paths.get("assignment_one/part4/config.txt"),
+                Paths.get("assignment_one", "part4", "assignment_one/part4/config.txt"),
+                Paths.get("part4", "assignment_one/part4/config.txt")
         };
 
         for (Path candidate : candidates) {
