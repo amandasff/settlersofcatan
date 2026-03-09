@@ -1,2 +1,2 @@
-rounds=50
-seed=42
+turns: 50
+seed: 42

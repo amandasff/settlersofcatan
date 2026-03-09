@@ -9,56 +9,70 @@ import java.nio.file.Paths;
 public final class ConfigLoader {
 
     public SimulationConfig load(String pathString) {
-        int rounds = 50;
-        long seed = 1L;
-
         Path path = resolveConfigPath(pathString);
 
         if (path == null) {
-            System.out.println("Using default config because file could not be read.");
-            return new SimulationConfig(rounds, seed);
+            throw new IllegalArgumentException("Config file could not be found: " + pathString);
         }
+
+        Integer turns = null;
+        Long seed = 1L; // default seed if not provided
 
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
+            int lineNumber = 0;
 
             while ((line = reader.readLine()) != null) {
+                lineNumber++;
                 line = line.trim();
 
                 if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
 
-                String[] parts = line.split("=", 2);
+                String[] parts = line.split(":", 2);
                 if (parts.length != 2) {
-                    continue;
+                    throw new IllegalArgumentException(
+                            "Invalid config line " + lineNumber + ": " + line
+                    );
                 }
 
                 String key = parts[0].trim();
                 String value = parts[1].trim();
 
-                if (key.equalsIgnoreCase("rounds")) {
-                    rounds = Integer.parseInt(value);
-                } else if (key.equalsIgnoreCase("seed")) {
-                    seed = Long.parseLong(value);
+                try {
+                    if (key.equalsIgnoreCase("turns")) {
+                        turns = Integer.parseInt(value);
+                    } else if (key.equalsIgnoreCase("seed")) {
+                        seed = Long.parseLong(value);
+                    } else {
+                        throw new IllegalArgumentException(
+                                "Unknown config key on line " + lineNumber + ": " + key
+                        );
+                    }
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException(
+                            "Invalid numeric value on line " + lineNumber + ": " + line
+                    );
                 }
             }
 
-            System.out.println("Loaded config from: " + path.toAbsolutePath());
-            return new SimulationConfig(rounds, seed);
-
-        } catch (IOException | NumberFormatException e) {
-            System.out.println("Using default config because file could not be read.");
-            return new SimulationConfig(rounds, seed);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Could not read config file: " + pathString, e);
         }
+
+        if (turns == null) {
+            throw new IllegalArgumentException("Missing required config field: turns");
+        }
+
+        return new SimulationConfig(turns, seed);
     }
 
     private Path resolveConfigPath(String pathString) {
         Path[] candidates = new Path[] {
                 Paths.get(pathString),
-                Paths.get("assignment_one/part4/config.txt"),
-                Paths.get("assignment_one", "part4", "assignment_one/part4/config.txt"),
-                Paths.get("part4", "assignment_one/part4/config.txt")
+                Paths.get("assignment_two", "config.txt"),
+                Paths.get("assignment_one", "part4", "config.txt")
         };
 
         for (Path candidate : candidates) {
