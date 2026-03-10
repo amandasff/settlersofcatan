@@ -5,7 +5,7 @@ package catan;
 public final class Demonstrator {
 
     public static void main(String[] args) {
-        String configPath = "assignment_one/part4/config.txt";
+        String configPath = "assignment_two/task3/config.txt";
         SimulationConfig config = new ConfigLoader().load(configPath);
 
         // Demonstration 1: standard simulator run from fixed board setup.
