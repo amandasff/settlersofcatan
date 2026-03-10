@@ -28,3 +28,8 @@ gamelog.txt
 
 # Local config
 .claude/
+
+assignment_two/task3/visualizer/state.json
+assignment_two/task3/visualizer/scraped_boards/
+assignment_two/task3/visualizer/.venv/
+assignment_two/task3/visualizer/catanatron/

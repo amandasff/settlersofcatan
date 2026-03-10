@@ -1,25 +1,14 @@
 package catan;
 
-
-
 public final class Demonstrator {
+
+    private Demonstrator() {
+    }
 
     public static void main(String[] args) {
         String configPath = "assignment_two/task3/config.txt";
         SimulationConfig config = new ConfigLoader().load(configPath);
 
-        // Demonstration 1: standard simulator run from fixed board setup.
-        System.out.println("=== DEMO 1: STANDARD SIMULATION ===");
-        runSimulation(config, false);
-
-        // Demonstration 2: richer run with extra resources so reviewers can observe
-        // more action types such as settlement/city building instead of mostly PASS.
-        System.out.println();
-        System.out.println("=== DEMO 2:DEMONSTRATION RUN ===");
-        runSimulation(config, true);
-    }
-
-    private static void runSimulation(SimulationConfig config, boolean enrichedDemo) {
         BoardLayout layout = BoardLayout.createDefaultLayout();
         Board board = new Board(layout);
         ResourceBank bank = new ResourceBank();
@@ -32,16 +21,32 @@ public final class Demonstrator {
         };
 
         GameState state = new GameState(board, bank, players);
-        Game game = new Game(config, state, new ActionLogger());
 
-        // Initial placement according to the simulator setup rules.
+        // Player 0 is treated as the human player.
+        // Step mode is enabled, so the simulator waits for "Go"
+        // before advancing to the next player's turn.
+        Game game = new Game(
+                config,
+                state,
+                new ActionLogger(),
+                0,
+                true,
+                "assignment_two/task3/visualizer/state.json"
+        );
+
+        // Initial setup places the starting settlements and roads.
         game.setup();
 
-        if (enrichedDemo) {
-            grantDemoResources(players);
-        }
+        // Give the players some extra resources so the human can
+        // more easily demonstrate build commands during the run.
+        grantDemoResources(players);
 
-        // Runs rounds until max rounds are reached or someone reaches 10 VP.
+        System.out.println("=== Assignment 2 Demonstration ===");
+        System.out.println("Player 0 is the human player.");
+        System.out.println("Use Roll, List, Build ..., and Go in the console.");
+        System.out.println("The visualizer reads state.json during the run.");
+        System.out.println();
+
         game.run();
     }
 
