@@ -1,0 +1,27 @@
+{
+  "currentRound": 1,
+  "currentPlayerIndex": 0,
+  "currentRoll": 7,
+  "robberTileId": 18,
+  "lastAction": "ROBBER",
+  "roads": [
+    { "a": 0, "b": 20, "owner": "BLUE" },
+    { "a": 4, "b": 5, "owner": "ORANGE" },
+    { "a": 6, "b": 23, "owner": "WHITE" },
+    { "a": 9, "b": 10, "owner": "RED" },
+    { "a": 34, "b": 35, "owner": "BLUE" },
+    { "a": 39, "b": 41, "owner": "WHITE" },
+    { "a": 40, "b": 42, "owner": "ORANGE" },
+    { "a": 40, "b": 44, "owner": "RED" }
+  ],
+  "buildings": [
+    { "node": 0, "owner": "BLUE", "type": "SETTLEMENT" },
+    { "node": 4, "owner": "ORANGE", "type": "SETTLEMENT" },
+    { "node": 6, "owner": "WHITE", "type": "SETTLEMENT" },
+    { "node": 9, "owner": "RED", "type": "SETTLEMENT" },
+    { "node": 35, "owner": "BLUE", "type": "SETTLEMENT" },
+    { "node": 39, "owner": "WHITE", "type": "SETTLEMENT" },
+    { "node": 42, "owner": "ORANGE", "type": "SETTLEMENT" },
+    { "node": 44, "owner": "RED", "type": "SETTLEMENT" }
+  ]
+}
