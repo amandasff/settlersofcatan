@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -23,9 +24,9 @@ jobs:
           cache: maven
 
       - name: Build and Test
-        run: mvn -B verify
+        run: mvn -B clean verify
 
-      - name: SonarCloud Scan
+      - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
