@@ -42,6 +42,8 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>assignment_two/task3/src</sourceDirectory>
+        <testSourceDirectory>assignment_two/task3/test</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
