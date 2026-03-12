@@ -9,8 +9,10 @@ SFWRENG 2AA4 - Assignment 2
 A Java simulator for a simplified version of Settlers of Catan. One human player and 3 AI agents play on a randomized hex board, rolling dice, collecting resources, and building roads/settlements/cities. The human player enters commands through the console, and a Python visualizer shows the board state after each turn.
 
 ## How to run
+Java 17+ and Maven should be installed installed. To run the demonstrator:
 
-You need Java 17+ and Maven.
+1. Compile and run tests: `mvn clean verify`
+2. Run the simulation: `mvn exec:java -Dexec.mainClass="catan.Demonstrator" -q`
 
 ## Config
 
