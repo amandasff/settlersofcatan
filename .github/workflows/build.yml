@@ -2,12 +2,15 @@ name: Build and Analyze
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
+    name: Build and SonarCloud Analysis
     runs-on: ubuntu-latest
 
     steps:
@@ -19,12 +22,19 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          distribution: temurin
+          java-version: 17
           cache: maven
 
-      - name: Build and Test
-        run: mvn -B clean verify
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Build and run tests
+        run: mvn clean verify
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
@@ -34,6 +44,11 @@ jobs:
           args: >
             -Dsonar.projectKey=amandasff_settlersofcatan
             -Dsonar.organization=amandasff
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=assignment_two/task1/src,assignment_two/task3/src
+            -Dsonar.tests=assignment_two/task1/test,assignment_two/task3/test
             -Dsonar.java.binaries=target/classes
             -Dsonar.java.test.binaries=target/test-classes
+            -Dsonar.junit.reportPaths=target/surefire-reports
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.coverage.exclusions=**/Demonstrator.java
