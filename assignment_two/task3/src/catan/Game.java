@@ -151,6 +151,7 @@ public final class Game {
         System.out.println("=== HUMAN TURN: P" + player.getId() + " ===");
 
         doHumanRoll(round, player);
+        printLegalActions(player);
 
         while (true) {
             System.out.println("Enter command: Roll | Go | List | Build settlement <nodeId> | Build city <nodeId> | Build road [from,to]");
@@ -177,6 +178,7 @@ public final class Game {
                 case BUILD_SETTLEMENT -> {
                     if (tryExecuteSettlement(round, player, cmd.getNodeId())) {
                         stateExporter.export(state);
+                        printLegalActions(player);
                     } else {
                         System.out.println("That settlement build is not currently legal.");
                     }
@@ -184,6 +186,7 @@ public final class Game {
                 case BUILD_CITY -> {
                     if (tryExecuteCity(round, player, cmd.getNodeId())) {
                         stateExporter.export(state);
+                        printLegalActions(player);
                     } else {
                         System.out.println("That city upgrade is not currently legal.");
                     }
@@ -191,6 +194,7 @@ public final class Game {
                 case BUILD_ROAD -> {
                     if (tryExecuteRoad(round, player, cmd.getFromNodeId(), cmd.getToNodeId())) {
                         stateExporter.export(state);
+                        printLegalActions(player);
                     } else {
                         System.out.println("That road build is not currently legal.");
                     }
@@ -239,6 +243,23 @@ public final class Game {
 
             stateExporter.export(state);
             return;
+        }
+    }
+   // added this for myself to see what course of actions I can take for quick testing
+    private void printLegalActions(Player player) {
+        List<Action> legalActions = actionGenerator.getExecutableActions(state, player, false);
+        System.out.println("Legal actions right now:");
+        for (Action action : legalActions) {
+            if (action instanceof BuildRoadAction roadAction) {
+                Edge edge = roadAction.getTarget();
+                System.out.println("  BUILD_ROAD [" + edge.getNodeAId() + "," + edge.getNodeBId() + "]");
+            } else if (action instanceof BuildSettlementAction settlementAction) {
+                System.out.println("  BUILD_SETTLEMENT node=" + settlementAction.getTarget().getId());
+            } else if (action instanceof UpgradeToCityAction cityAction) {
+                System.out.println("  BUILD_CITY node=" + cityAction.getTarget().getId());
+            } else {
+                System.out.println("  " + action.describe());
+            }
         }
     }
 
