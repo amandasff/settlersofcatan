@@ -1,11 +1,12 @@
 {
-  "currentRound": 0,
-  "currentPlayerIndex": 0,
-  "currentRoll": 0,
+  "currentRound": 1,
+  "currentPlayerIndex": 1,
+  "currentRoll": 6,
   "robberTileId": -1,
-  "lastAction": "",
+  "lastAction": "BUILD_ROAD edge=16",
   "roads": [
     { "a": 6, "b": 7, "owner": "WHITE" },
+    { "a": 8, "b": 9, "owner": "BLUE" },
     { "a": 9, "b": 10, "owner": "BLUE" },
     { "a": 19, "b": 20, "owner": "RED" },
     { "a": 19, "b": 21, "owner": "ORANGE" },

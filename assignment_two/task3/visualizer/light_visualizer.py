@@ -154,11 +154,30 @@ class CatanBoardVisualizer:
             else:
                 raise ValueError(f"Unknown building type: {building_type}")
 
+
         # For roads
-        for road_data in self.state_data.get("roads", []):
-            edge = (road_data["a"], road_data["b"])
-            color = self._parse_color(road_data["owner"])
-            board.build_road(color, edge)
+        remaining_roads = list(self.state_data.get("roads", []))
+
+        while remaining_roads:
+            placed_any = False
+            still_unplaced = []
+
+            for road_data in remaining_roads:
+                edge = (road_data["a"], road_data["b"])
+                color = self._parse_color(road_data["owner"])
+
+                try:
+                    board.build_road(color, edge)
+                    placed_any = True
+                except Exception:
+                    still_unplaced.append(road_data)
+
+            if not placed_any:
+                print("Could not place remaining roads:")
+                print(still_unplaced)
+                raise ValueError("Some roads could not be placed on the visualizer board.")
+
+            remaining_roads = still_unplaced
 
     def build_game(self) -> Game:
         """
@@ -173,8 +192,10 @@ class CatanBoardVisualizer:
         # Create dummy players (needed for Game initialization)
         # We don't need actual players for visualization
         players = [
+            Player(Color.RED),
             Player(Color.BLUE),
-            Player(Color.RED)
+            Player(Color.ORANGE),
+            Player(Color.WHITE),
         ]
 
         # Create game with the map
@@ -182,7 +203,7 @@ class CatanBoardVisualizer:
             players=players,
             seed=42,
             catan_map=catan_map,
-            initialize=True,
+            initialize= True,
         )
 
         # Apply state to the board
