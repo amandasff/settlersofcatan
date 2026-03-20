@@ -1,5 +1,9 @@
 package catan;
 
+/*
+ * Assignment 3 changes:
+ * - added giveTo(Player, Cost) so command undo can refund action costs
+ */
 public final class ResourceBank {
     private final ResourceInventory supply;
 
@@ -30,6 +34,19 @@ public final class ResourceBank {
             int amount = cost.get(type);
             if (amount > 0) {
                 supply.add(type, amount);
+            }
+        }
+    }
+
+    public void giveTo(Player player, Cost cost) {
+        for (ResourceType type : ResourceType.values()) {
+            int amount = cost.get(type);
+            if (amount > 0) {
+                if (!canPay(type, amount)) {
+                    throw new IllegalStateException("Bank cannot refund required resources.");
+                }
+                supply.remove(type, amount);
+                player.getHand().add(type, amount);
             }
         }
     }

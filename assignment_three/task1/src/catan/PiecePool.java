@@ -1,5 +1,9 @@
 package catan;
 
+/*
+ * Assignment 3 changes:
+ * - added returnRoad and returnCity so command undo can restore spent pieces
+ */
 public final class PiecePool {
     private int roadsRemaining = 15;
     private int settlementsRemaining = 5;
@@ -32,8 +36,16 @@ public final class PiecePool {
         citiesRemaining--;
     }
 
+    public void returnRoad() {
+        roadsRemaining++;
+    }
+
     public void returnSettlement() {
         settlementsRemaining++;
+    }
+
+    public void returnCity() {
+        citiesRemaining++;
     }
 
     public int getRoadsRemaining() {

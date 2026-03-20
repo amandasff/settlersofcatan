@@ -1,5 +1,9 @@
 package catan;
 
+/*
+ * Assignment 3 changes:
+ * - added removeVictoryPoints to support reversing command effects during undo
+ */
 public final class Player {
     private final int id;
     private final ResourceInventory hand;
@@ -45,6 +49,10 @@ public final class Player {
 
     public void addVictoryPoints(int points) {
         this.victoryPoints += points;
+    }
+
+    public void removeVictoryPoints(int points) {
+        this.victoryPoints -= points;
     }
 
     public boolean canAfford(Cost cost) {

@@ -1,5 +1,10 @@
 package catan;
 
+/*
+ * Assignment 3 changes:
+ * - BuildSettlementAction now acts as a concrete Command
+ * - added undo support so settlement placement can be reversed through command history
+ */
 public final class BuildSettlementAction implements Action {
     private static final RuleEngine RULES = new RuleEngine();
 
@@ -24,15 +29,27 @@ public final class BuildSettlementAction implements Action {
             throw new IllegalStateException("BuildSettlementAction is not executable.");
         }
 
-        // Spend settlement cost, consume one settlement piece,
-        // place settlement on target node, and add 1 VP.
         state.getBank().takeFrom(player, Cost.settlementCost());
         player.getPieces().takeSettlement();
 
-        Settlement settlement = new Settlement(player.getId(), target.getId());
-        target.setBuilding(settlement);
+        target.setBuilding(new Settlement(player.getId(), target.getId()));
+        player.addVictoryPoints(1);
+    }
 
-        player.addVictoryPoints(settlement.getVPValue());
+    @Override
+    public void undo(GameState state, Player player) {
+        if (!(target.getBuilding() instanceof Settlement settlement)) {
+            throw new IllegalStateException("No settlement exists on the target node.");
+        }
+
+        if (settlement.getOwnerId() != player.getId()) {
+            throw new IllegalStateException("Cannot undo another player's settlement.");
+        }
+
+        target.setBuilding(null);
+        player.getPieces().returnSettlement();
+        state.getBank().giveTo(player, Cost.settlementCost());
+        player.removeVictoryPoints(1);
     }
 
     @Override

@@ -3,6 +3,11 @@ package catan;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+ * Assignment 3 changes:
+ * - extended parser support for undo and redo commands
+ * - this allows the human player to trigger Command history operations
+ */
 public final class CommandParser {
     private static final Pattern ROLL_PATTERN =
             Pattern.compile("^\\s*roll\\s*$", Pattern.CASE_INSENSITIVE);
@@ -12,6 +17,12 @@ public final class CommandParser {
 
     private static final Pattern LIST_PATTERN =
             Pattern.compile("^\\s*list\\s*$", Pattern.CASE_INSENSITIVE);
+
+    private static final Pattern UNDO_PATTERN =
+            Pattern.compile("^\\s*undo\\s*$", Pattern.CASE_INSENSITIVE);
+
+    private static final Pattern REDO_PATTERN =
+            Pattern.compile("^\\s*redo\\s*$", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern BUILD_SETTLEMENT_PATTERN =
             Pattern.compile("^\\s*build\\s+settlement\\s+(\\d+)\\s*$", Pattern.CASE_INSENSITIVE);
@@ -38,6 +49,14 @@ public final class CommandParser {
 
         if (LIST_PATTERN.matcher(input).matches()) {
             return HumanCommand.list();
+        }
+
+        if (UNDO_PATTERN.matcher(input).matches()) {
+            return HumanCommand.undo();
+        }
+
+        if (REDO_PATTERN.matcher(input).matches()) {
+            return HumanCommand.redo();
         }
 
         Matcher settlementMatcher = BUILD_SETTLEMENT_PATTERN.matcher(input);

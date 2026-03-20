@@ -1,17 +1,15 @@
 package catan;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Main simulation controller.
- *
- * Assignment 2 changes:
- * - one player may act as a human through console commands
- * - parser-driven commands for roll/go/list/build
- * - step-forward support using "go"
- * - state.json export for the instructor visualizer
- * - robber support on roll 7
+/*
+ * Assignment 3 changes:
+ * - introduced Command history management through undo and redo stacks
+ * - centralized action execution so executed commands are recorded uniformly
+ * - extended human turn handling to support undo and redo commands
  */
 public final class Game {
     private static final int PLAYER_COUNT = 4;
@@ -33,6 +31,19 @@ public final class Game {
 
     private final int humanPlayerId;
     private final boolean stepMode;
+
+    private final Deque<ExecutedAction> undoStack;
+    private final Deque<ExecutedAction> redoStack;
+
+    private static final class ExecutedAction {
+        private final Action action;
+        private final Player player;
+
+        private ExecutedAction(Action action, Player player) {
+            this.action = action;
+            this.player = player;
+        }
+    }
 
     public Game(SimulationConfig config, GameState state, ActionLogger logger) {
         this(config, state, logger, 0, true, "assignment_two/task3/visualizer/state.json");
@@ -62,6 +73,9 @@ public final class Game {
 
         this.humanPlayerId = humanPlayerId;
         this.stepMode = stepMode;
+
+        this.undoStack = new ArrayDeque<>();
+        this.redoStack = new ArrayDeque<>();
     }
 
     public void setup() {
@@ -78,6 +92,7 @@ public final class Game {
             for (int i = 0; i < PLAYER_COUNT; i++) {
                 Player player = state.getPlayers()[i];
                 state.setCurrentPlayerIndex(i);
+                clearTurnHistory();
 
                 if (stepMode && !firstTurn) {
                     waitForStepForward();
@@ -140,9 +155,7 @@ public final class Game {
             chosen = new PassAction();
         }
 
-        chosen.execute(state, player);
-        state.setLastAction(chosen.describe());
-        logger.logAction(round, player.getId(), chosen.describe());
+        executeRecordedAction(round, player, chosen);
 
         stateExporter.export(state);
     }
@@ -154,7 +167,7 @@ public final class Game {
         printLegalActions(player);
 
         while (true) {
-            System.out.println("Enter command: Roll | Go | List | Build settlement <nodeId> | Build city <nodeId> | Build road [from,to]");
+            System.out.println("Enter command: Roll | Go | List | Undo | Redo | Build settlement <nodeId> | Build city <nodeId> | Build road [from,to]");
             String input = scanner.nextLine();
 
             HumanCommand cmd;
@@ -169,9 +182,24 @@ public final class Game {
                 case LIST -> {
                     System.out.println("Hand: " + player.getHand());
                 }
+                case UNDO -> {
+                    if (undoLastAction(round)) {
+                        stateExporter.export(state);
+                        printLegalActions(player);
+                    } else {
+                        System.out.println("Nothing to undo.");
+                    }
+                }
+                case REDO -> {
+                    if (redoLastAction(round)) {
+                        stateExporter.export(state);
+                        printLegalActions(player);
+                    } else {
+                        System.out.println("Nothing to redo.");
+                    }
+                }
                 case GO -> {
-                    state.setLastAction("PASS");
-                    logger.logAction(round, player.getId(), "PASS");
+                    executeRecordedAction(round, player, new PassAction());
                     stateExporter.export(state);
                     return;
                 }
@@ -245,7 +273,8 @@ public final class Game {
             return;
         }
     }
-   // added this for myself to see what course of actions I can take for quick testing
+
+    // added this for myself to see what course of actions I can take for quick testing
     private void printLegalActions(Player player) {
         List<Action> legalActions = actionGenerator.getExecutableActions(state, player, false);
         System.out.println("Legal actions right now:");
@@ -268,9 +297,7 @@ public final class Game {
         for (Action action : legalActions) {
             if (action instanceof BuildSettlementAction settlementAction) {
                 if (settlementAction.getTarget().getId() == nodeId) {
-                    settlementAction.execute(state, player);
-                    state.setLastAction(settlementAction.describe());
-                    logger.logAction(round, player.getId(), settlementAction.describe());
+                    executeRecordedAction(round, player, settlementAction);
                     return true;
                 }
             }
@@ -283,9 +310,7 @@ public final class Game {
         for (Action action : legalActions) {
             if (action instanceof UpgradeToCityAction cityAction) {
                 if (cityAction.getTarget().getId() == nodeId) {
-                    cityAction.execute(state, player);
-                    state.setLastAction(cityAction.describe());
-                    logger.logAction(round, player.getId(), cityAction.describe());
+                    executeRecordedAction(round, player, cityAction);
                     return true;
                 }
             }
@@ -302,14 +327,53 @@ public final class Game {
                 boolean matchesReverse = edge.getNodeAId() == toNodeId && edge.getNodeBId() == fromNodeId;
 
                 if (matchesForward || matchesReverse) {
-                    roadAction.execute(state, player);
-                    state.setLastAction(roadAction.describe());
-                    logger.logAction(round, player.getId(), roadAction.describe());
+                    executeRecordedAction(round, player, roadAction);
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    private void executeRecordedAction(int round, Player player, Action action) {
+        action.execute(state, player);
+        undoStack.push(new ExecutedAction(action, player));
+        redoStack.clear();
+        state.setLastAction(action.describe());
+        logger.logAction(round, player.getId(), action.describe());
+    }
+
+    private boolean undoLastAction(int round) {
+        if (undoStack.isEmpty()) {
+            return false;
+        }
+
+        ExecutedAction executed = undoStack.pop();
+        executed.action.undo(state, executed.player);
+        redoStack.push(executed);
+
+        state.setLastAction("UNDO " + executed.action.describe());
+        logger.logAction(round, executed.player.getId(), "UNDO " + executed.action.describe());
+        return true;
+    }
+
+    private boolean redoLastAction(int round) {
+        if (redoStack.isEmpty()) {
+            return false;
+        }
+
+        ExecutedAction executed = redoStack.pop();
+        executed.action.execute(state, executed.player);
+        undoStack.push(executed);
+
+        state.setLastAction("REDO " + executed.action.describe());
+        logger.logAction(round, executed.player.getId(), "REDO " + executed.action.describe());
+        return true;
+    }
+
+    private void clearTurnHistory() {
+        undoStack.clear();
+        redoStack.clear();
     }
 
     private boolean checkTermination() {

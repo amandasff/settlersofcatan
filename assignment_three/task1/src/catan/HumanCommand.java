@@ -1,5 +1,9 @@
 package catan;
 
+/*
+ * Assignment 3 changes:
+ * - added undo and redo factory methods for command history interaction
+ */
 public final class HumanCommand {
     private final CommandType type;
     private final Integer nodeId;
@@ -23,6 +27,14 @@ public final class HumanCommand {
 
     public static HumanCommand list() {
         return new HumanCommand(CommandType.LIST, null, null, null);
+    }
+
+    public static HumanCommand undo() {
+        return new HumanCommand(CommandType.UNDO, null, null, null);
+    }
+
+    public static HumanCommand redo() {
+        return new HumanCommand(CommandType.REDO, null, null, null);
     }
 
     public static HumanCommand buildSettlement(int nodeId) {
