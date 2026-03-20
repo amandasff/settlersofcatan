@@ -15,7 +15,7 @@ public final class RandomStrategy implements AgentStrategy {
     }
 
     @Override
-    public Action select(List<Action> options) {
+    public Action select(List<Action> options, Player player) {
         if (options == null || options.isEmpty()) {
             return new PassAction();
         }

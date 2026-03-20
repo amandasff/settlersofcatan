@@ -1,30 +1,45 @@
 package catan;
 
+import java.util.List;
 import java.util.Random;
 
-public final class ValueStrategy implements AgentStrategy {    
-    
+public final class ValueStrategy implements AgentStrategy {
+    private final List<Value> valueRules = List.of(new VPValue(), new BuildValue(), new SpendValue());
+    private final Random rng = new Random();
+
     @Override
-    public Action select(List<Action> options) {
-        List<Value> valueRules = (new VPValue(), new BuildValue(), new SpendValue());
-        Action bestAction;
-        double maxValue = 0;
+    public Action select(List<Action> options, Player player) {
+        if (options == null || options.isEmpty()) {
+            return new PassAction();
+        }
+
+        double maxScore = -1;
+        Action best = null;
 
         for (Action action : options) {
-            for (Value vr : valueRules) {
-                double value = rule.evaluate()
-                if (value>maxValue) {
-                    bestAction = action;
-                }
+            double score = 0;
+            for (Value rule : valueRules) {
+                score += dispatch(rule, action, player);
+            }
+            if (score > maxScore) {
+                maxScore = score;
+                best = action;
             }
         }
 
-        if (value == 0) {
-            Random random = new Random();
-            return options.get(random.nextInt(options.size()));
-
+        if (maxScore == 0) {
+            return options.get(rng.nextInt(options.size()));
         }
 
-        return bestAction;
+        return best;
+    }
+
+    private double dispatch(Value rule, Action action, Player player) {
+        if (action instanceof BuildRoadAction a)       return rule.evaluate(a, player);
+        if (action instanceof BuildSettlementAction a) return rule.evaluate(a, player);
+        if (action instanceof BuyCardAction a)         return rule.evaluate(a, player);
+        if (action instanceof UpgradeToCityAction a)   return rule.evaluate(a, player);
+        if (action instanceof PassAction a)            return rule.evaluate(a, player);
+        return 0;
     }
 }

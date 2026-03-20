@@ -4,6 +4,8 @@ package catan;
  * Assignment 3 changes:
  * - added removeVictoryPoints to support reversing command effects during undo
  */
+import java.util.EnumMap;
+
 public final class Player {
     private final int id;
     private final ResourceInventory hand;
@@ -21,7 +23,7 @@ public final class Player {
         this.victoryPoints = 0;
         this.developmentHand = new EnumMap<>(CardType.class);
         for (CardType type : CardType.values()) {
-            counts.put(type, 0);
+            developmentHand.put(type, 0);
         }
 
     }

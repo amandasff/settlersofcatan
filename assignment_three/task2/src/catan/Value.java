@@ -1,9 +1,9 @@
 package catan;
 
 public interface Value {
-    public double evaluate (BuildRoadAction action);
-    public double evaluate (BuildSettlementAction action);
-    public double evaluate (BuyCardAction action);
-    public double evaluate (PassAction action);
-    public double evaluate (UpgradeToCityAction action);
+    double evaluate(BuildRoadAction action, Player player);
+    double evaluate(BuildSettlementAction action, Player player);
+    double evaluate(BuyCardAction action, Player player);
+    double evaluate(PassAction action, Player player);
+    double evaluate(UpgradeToCityAction action, Player player);
 }

@@ -138,7 +138,6 @@ public final class RuleEngine {
     }
 
     public boolean canBuyDevelopmentCard(Player player) {
-        Cost cost = developmentCardCost();
-        return player.canAfford(cost);
+        return player.canAfford(Cost.developmentCardCost());
     }
 }

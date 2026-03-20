@@ -2,29 +2,28 @@ package catan;
 
 public final class BuyCardAction implements Action {
     private static final RuleEngine RULES = new RuleEngine();
-    
+
     @Override
-    public boolean isExecutable(Player player) {
+    public boolean isExecutable(GameState state, Player player) {
         return RULES.canBuyDevelopmentCard(player);
     }
 
     @Override
     public void execute(GameState state, Player player) {
-        if (!isExecutable(player)) {
+        if (!isExecutable(state, player)) {
             throw new IllegalStateException("BuyCardAction is not executable.");
         }
 
         state.getBank().takeFrom(player, Cost.developmentCardCost());
-        drawCard(player);
+        CardPool.drawCard(player);
     }
 
-    @Override 
+    @Override
     public void undo(GameState state, Player player) {
-
     }
 
-    @Override 
+    @Override
     public String describe() {
-        return "Card purchased";
+        return "BUY_CARD";
     }
 }

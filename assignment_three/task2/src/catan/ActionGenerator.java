@@ -38,8 +38,8 @@ public final class ActionGenerator {
         List<Action> allActions = new ArrayList<>(buildActions);
         allActions.add(new PassAction());
 
-        BuyCardAction buyCardAction = new BuyCardAction(player);
-        if (buyCardAction.isExecutable(player)) {
+        BuyCardAction buyCardAction = new BuyCardAction();
+        if (buyCardAction.isExecutable(state, player)) {
             allActions.add(buyCardAction);
         }
 
