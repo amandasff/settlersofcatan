@@ -152,7 +152,7 @@ public final class Game {
         }
 
         List<Action> legalActions = actionGenerator.getExecutableActions(state, player, false);
-        Action chosen = player.getStrategy().select(legalActions, player);
+        Action chosen = player.getStrategy().select(legalActions, player, state);
         if (chosen == null) {
             chosen = new PassAction();
         }
